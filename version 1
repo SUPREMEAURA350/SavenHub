@@ -1,0 +1,296 @@
+Load Rayfield UI Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))() 
+
+-- Create Main Window
+local Window = Rayfield:CreateWindow({
+   Name = "SavenHub🔥",
+   LoadingTitle = "SavenHub🔥",
+   LoadingSubtitle = "Created by {SHEHRYAR x KAISER}",
+   Theme = "dark", -- DarkBlue, Green, Light, Default - more coming soon!
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "SavenHub Configuration", -- Folder saved in workspace
+      FileName = "MainSettings"
+   },
+
+   Discord = {
+      Enabled = true,
+      Invite = "TsVVgctW", -- Example: discord.gg/abcd1234 -> use "TsVVgctW"
+      RememberJoins = true
+   },
+
+      KeySystem = true, -- Set to true to enable the key system
+   KeySettings = {
+      Title = "SavenHub🔥",
+      Subtitle = "Key System",
+      Note = "Join our Discord (discord.gg/TsVVgctW) to get the key!",
+      FileName = "Savenhub key", -- Saves key so users don't have to enter it every time
+      SaveKey = true,
+      GrabKeyFromSite = false, -- Set to true if pulling key from Pastebin/GitHub raw link
+      Key = {"KING_KAISER", "SUPREME_AURA350", "SavenHub1213"} 
+}
+
+-- Create Main Tab with an icon
+local MainTab = Window:CreateTab("Player Features", "user")
+
+-- Create a Section
+MainTab:CreateSection("Movement Modifications")
+
+-- 1. Button Example
+MainTab:CreateButton({
+   Name = "Print Speed",
+   Callback = function()
+       -- Code runs once when clicked
+       print("Current WalkSpeed: " .. game.Players.LocalPlayer.Character.Humanoid.WalkSpeed)
+   end,
+})
+
+-- 2. Toggle Example
+local SpeedToggle = MainTab:CreateToggle({
+   Name = "Super Speed",
+   CurrentValue = false,
+   Flag = "SpeedToggle1", -- Unique ID for saving config
+   Callback = function(Value)
+       -- Runs whenever the toggle status changes
+       if Value then
+           game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+       else
+           game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+       end
+   end,
+})
+
+-- 3. Slider Example
+local JumpSlider = MainTab:CreateSlider({
+   Name = "Jump Power",
+   Range = {50, 200},
+   Increment = 5,
+   Suffix = " Power",
+   CurrentValue = 50,
+   Flag = "JumpSlider1",
+   Callback = function(Value)
+       -- Fires as the user drags or changes the slider
+       game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+   end,
+})
+
+-- 4. Notification Example
+Rayfield:Notify({
+   Title = "Script Loaded",
+   Content = "SavenHub is ready to use!",
+   Duration = 5,
+   Image = "check",
+})
+
+tab:CreateToggle({
+   name = "SavenHub SPAMMER",
+   callback = function(value)
+       _G.LoopMessages = value
+
+       task.spawn(function()
+           while _G.LoopMessages do
+               local TextChatService = game:GetService("TextChatService")
+               local ReplicatedStorage = game:GetService("ReplicatedStorage")
+               
+               local target = (_G.TargetPlayer and _G.TargetPlayer ~= "") and _G.TargetPlayer or "(💗KAISER💗)H8RS(😝)"
+
+               local messages = {
+                   target .. " TMKX MEH DARK POWER KAISER VOID WORM WAVE GOD FACT WAVE PRIME PARALLEL PRIME(🤣)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                   target .. " TMKX MEH Bicycle(🙈) | TBKX MARE Smart Phone(☄️) |  TMKX MARE Desk(🥀)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                   target .. " TMKX MEH KAISER WORM PARALLEL GOD WAVE HYPER VOID KAISER WAVE WAVE(😝)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+                   target .. " TMKX MEH KAISER WORM PARALLEL LEGEND WAVE HYPER VOID KAISER WAVE POWER(💥)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+                   target .. " TMKX MEH Coffee Mug(⭐) | TMKX MARE Notebook(💎) | TBKX KUDAI Ceiling Fan(🔥)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+               
+               }
+
+               for _, msg in ipairs(messages) do
+                   if not _G.LoopMessages then break end
+                   
+                   if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+                       TextChatService.TextChannels.RBXGeneral:SendAsync(msg)
+                   else
+                       ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+                   end
+
+                   task.wait(2)
+               end
+
+               task.wait(3)
+           end
+       end)
+   end,
+})
+
+-- Create a Community/Socials Section
+MainTab:CreateSection("Socials & Credits")
+
+-- 1. Your Server Invite Button
+MainTab:CreateButton({
+   Name = "JOIN THE SERVER",
+   Callback = function()
+       if setclipboard then
+           setclipboard("https://discord.gg/TsVVgctW")
+       end
+       Rayfield:Notify({
+           Title = "Creator's Discord Invite",
+           Content = "Copied the server link to clipboard!",
+           Duration = 4,
+           Image = "check",
+       })
+   end,
+})
+
+-- 2. Your Friend's Discord Profile / Tag Button
+MainTab:CreateButton({
+   Name = "JOIN 2nd Creator's Server", 
+   Callback = function()
+       if setclipboard then
+           setclipboard("mrshehryarlegend92") -- Copies their username or profile link
+       end
+       Rayfield:Notify({
+           Title = "2nd Creator's Discord Invite",
+           Content = "Copied the Server Username to clipboard!",
+           Duration = 4,
+           Image = "check",
+       })
+   end,
+})
+
+-- Add a glowing border around the Rayfield main window
+task.spawn(function()
+    -- Wait for the Rayfield UI to render in CoreGui
+    local coreGui = game:GetService("CoreGui")
+    local rayfieldGui = coreGui:WaitForChild("Rayfield", 5) or game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Rayfield", 5)
+    
+    if rayfieldGui then
+        local mainFrame = rayfieldGui:WaitForChild("Main", 5)
+        if mainFrame then
+            -- 1. Solid Outer Stroke Outline
+            local stroke = Instance.new("UIStroke")
+            stroke.Name = "GlowStroke"
+            stroke.Color = Color3.fromRGB(170, 85, 255) -- Purple glow color (matches image)
+            stroke.Thickness = 2
+            stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            stroke.Parent = mainFrame
+
+            -- 2. Glowing Shadow Effect
+            local glowImage = Instance.new("ImageLabel")
+            glowImage.Name = "GlowShadow"
+            glowImage.BackgroundTransparency = 1
+            glowImage.Position = UDim2.new(0, -15, 0, -15)
+            glowImage.Size = UDim2.new(1, 30, 1, 30)
+            glowImage.ZIndex = mainFrame.ZIndex - 1
+            glowImage.Image = "rbxassetid://5028857472" -- Roblox blur shadow asset
+            glowImage.ImageColor3 = Color3.fromRGB(170, 85, 255) -- Purple color
+            glowImage.ImageTransparency = 0.3
+            glowImage.ScaleType = Enum.ScaleType.Slice
+            glowImage.SliceCenter = Rect.new(24, 24, 276, 276)
+            glowImage.Parent = mainFrame
+        end
+    end
+end)
+
+Intro Screen Overlay 
+local function playIntroScreen()
+    local sg = Instance.new("ScreenGui")
+    sg.Name = "SavenHub🔥"
+    sg.ResetOnSpawn = false
+    sg.Parent = (gethui and gethui()) or CoreGui or LocalPlayer:WaitForChild("PlayerGui")
+
+    -- Main Card Container
+    local card = Instance.new("Frame")
+    card.Size = UDim2.new(0, 420, 0, 240)
+    card.Position = UDim2.new(0.5, -210, 0.5, -120)
+    card.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    card.BackgroundTransparency = 0.25
+    card.BorderSizePixel = 0
+    card.Parent = sg
+
+    local cardCorner = Instance.new("UICorner")
+    cardCorner.CornerRadius = UDim.new(0, 30)
+    cardCorner.Parent = card
+
+    -- Outer Purple Glow Ring
+    local outerGlow = Instance.new("UIStroke")
+    outerGlow.Color = Color3.fromRGB(160, 32, 240)
+    outerGlow.Thickness = 6
+    outerGlow.Transparency = 0.3
+    outerGlow.Parent = card
+
+    -- Inner Purple Border
+    local innerBorder = Instance.new("UIStroke")
+    innerBorder.Color = Color3.fromRGB(200, 50, 255)
+    innerBorder.Thickness = 2
+    innerBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    innerBorder.Parent = card
+
+    -- Avatar Headshot Image
+    local avatarFrame = Instance.new("Frame")
+    avatarFrame.Size = UDim2.new(0, 80, 0, 80)
+    avatarFrame.Position = UDim2.new(0.5, -40, 0.1, 0)
+    avatarFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    avatarFrame.Parent = card
+
+    local avatarCorner = Instance.new("UICorner")
+    avatarCorner.CornerRadius = UDim.new(1, 0)
+    avatarCorner.Parent = avatarFrame
+
+    local avatarStroke = Instance.new("UIStroke")
+    avatarStroke.Color = Color3.fromRGB(180, 50, 255)
+    avatarStroke.Thickness = 3
+    avatarStroke.Parent = avatarFrame
+
+    local avatarImg = Instance.new("ImageLabel")
+    avatarImg.Size = UDim2.new(1, 0, 1, 0)
+    avatarImg.BackgroundTransparency = 1
+    avatarImg.Image = Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
+    avatarImg.Parent = avatarFrame
+
+    local imgCorner = Instance.new("UICorner")
+    imgCorner.CornerRadius = UDim.new(1, 0)
+    imgCorner.Parent = avatarImg
+
+    -- Main Title Text
+    local titleText = Instance.new("TextLabel")
+    titleText.Size = UDim2.new(1, 0, 0, 30)
+    titleText.Position = UDim2.new(0, 0, 0.5, 0)
+    titleText.BackgroundTransparency = 1
+    titleText.Text = "SavenHub🔥"
+    titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleText.TextSize = 22
+    titleText.Font = Enum.Font.GothamBold
+    titleText.Parent = card
+
+    -- Subtitle Loading / Welcome Text
+    local statusText = Instance.new("TextLabel")
+    statusText.Size = UDim2.new(1, 0, 0, 25)
+    statusText.Position = UDim2.new(0, 0, 0.72, 0)
+    statusText.BackgroundTransparency = 1
+    statusText.Text = "AUTHENTICATING SavenHub..."
+    statusText.TextColor3 = Color3.fromRGB(180, 50, 255)
+    statusText.TextSize = 14
+    statusText.Font = Enum.Font.Code
+    statusText.Parent = card
+
+    -- Animation sequence
+    task.wait(1.5)
+    statusText.Text = "WELCOME, " .. string.upper(LocalPlayer.Name) .. "To SavenHub 🔥"
+    statusText.TextColor3 = Color3.fromRGB(255, 0, 255)
+    task.wait(1.5)
+
+    -- Fade out
+    local fade = TweenService:Create(card, TweenInfo.new(0.6), {BackgroundTransparency = 1})
+    TweenService:Create(titleText, TweenInfo.new(0.6), {TextTransparency = 1}):Play()
+    TweenService:Create(statusText, TweenInfo.new(0.6), {TextTransparency = 1}):Play()
+    TweenService:Create(avatarImg, TweenInfo.new(0.6), {ImageTransparency = 1}):Play()
+    TweenService:Create(outerGlow, TweenInfo.new(0.6), {Transparency = 1}):Play()
+    TweenService:Create(innerBorder, TweenInfo.new(0.6), {Transparency = 1}):Play()
+    TweenService:Create(avatarStroke, TweenInfo.new(0.6), {Transparency = 1}):Play()
+    fade:Play()
+    fade.Completed:Wait()
+    sg:Destroy()
+end
+
+-- Run Intro First
+playIntroScreen()
